@@ -24,7 +24,7 @@ import { Loader2, Settings, TrendingUp, TrendingDown, Play, RefreshCw, Clock, Ma
 
 // Constants
 const AGENT_ID = '698e0acc3e19f69d1aa0c41d'
-const SCHEDULE_ID = '698e0ad2ebe6fd87d1dcc1ae'
+const SCHEDULE_ID = '698e0ee2ebe6fd87d1dcc1be'
 
 // Theme variables
 const THEME_VARS = {
@@ -323,14 +323,14 @@ export default function Home() {
   const sampleAlerts: AlertHistoryItem[] = [
     {
       id: '1',
-      executed_at: new Date(Date.now() - 10 * 60000).toISOString(),
+      executed_at: new Date(Date.now() - 5 * 60000).toISOString(),
       success: true,
       data: {
         stock_symbol: 'TSLA',
         current_price: 242.84,
         daily_change_amount: 5.23,
         daily_change_percentage: 2.2,
-        timestamp: new Date(Date.now() - 10 * 60000).toISOString(),
+        timestamp: new Date(Date.now() - 5 * 60000).toISOString(),
         market_status: 'Open',
         email_sent: true,
         recipient_email: 'user@example.com',
@@ -338,14 +338,14 @@ export default function Home() {
     },
     {
       id: '2',
-      executed_at: new Date(Date.now() - 20 * 60000).toISOString(),
+      executed_at: new Date(Date.now() - 10 * 60000).toISOString(),
       success: true,
       data: {
         stock_symbol: 'TSLA',
         current_price: 240.12,
         daily_change_amount: 2.51,
         daily_change_percentage: 1.06,
-        timestamp: new Date(Date.now() - 20 * 60000).toISOString(),
+        timestamp: new Date(Date.now() - 10 * 60000).toISOString(),
         market_status: 'Open',
         email_sent: true,
         recipient_email: 'user@example.com',
@@ -353,14 +353,14 @@ export default function Home() {
     },
     {
       id: '3',
-      executed_at: new Date(Date.now() - 30 * 60000).toISOString(),
+      executed_at: new Date(Date.now() - 15 * 60000).toISOString(),
       success: true,
       data: {
         stock_symbol: 'TSLA',
         current_price: 238.76,
         daily_change_amount: 1.15,
         daily_change_percentage: 0.48,
-        timestamp: new Date(Date.now() - 30 * 60000).toISOString(),
+        timestamp: new Date(Date.now() - 15 * 60000).toISOString(),
         market_status: 'Open',
         email_sent: true,
         recipient_email: 'user@example.com',
@@ -368,14 +368,14 @@ export default function Home() {
     },
     {
       id: '4',
-      executed_at: new Date(Date.now() - 40 * 60000).toISOString(),
+      executed_at: new Date(Date.now() - 20 * 60000).toISOString(),
       success: true,
       data: {
         stock_symbol: 'TSLA',
         current_price: 237.61,
         daily_change_amount: -0.89,
         daily_change_percentage: -0.37,
-        timestamp: new Date(Date.now() - 40 * 60000).toISOString(),
+        timestamp: new Date(Date.now() - 20 * 60000).toISOString(),
         market_status: 'Open',
         email_sent: true,
         recipient_email: 'user@example.com',
@@ -383,14 +383,14 @@ export default function Home() {
     },
     {
       id: '5',
-      executed_at: new Date(Date.now() - 50 * 60000).toISOString(),
+      executed_at: new Date(Date.now() - 25 * 60000).toISOString(),
       success: true,
       data: {
         stock_symbol: 'TSLA',
         current_price: 238.50,
         daily_change_amount: -2.34,
         daily_change_percentage: -0.97,
-        timestamp: new Date(Date.now() - 50 * 60000).toISOString(),
+        timestamp: new Date(Date.now() - 25 * 60000).toISOString(),
         market_status: 'Open',
         email_sent: true,
         recipient_email: 'user@example.com',
@@ -446,7 +446,7 @@ export default function Home() {
                         className="bg-background border-border"
                       />
                       <p className="text-xs text-muted-foreground">
-                        You'll receive Tesla stock price alerts at this email address every 10 minutes.
+                        You'll receive Tesla stock price alerts at this email address every 5 minutes.
                       </p>
                     </div>
                     {error && (
@@ -647,7 +647,7 @@ export default function Home() {
                     </Badge>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Fetches real-time Tesla stock data and sends email alerts every 10 minutes
+                    Fetches real-time Tesla stock data and sends email alerts every 5 minutes
                   </div>
                 </div>
               </CardContent>

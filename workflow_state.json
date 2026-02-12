@@ -14,14 +14,14 @@
   ],
   "schedules": [
     {
-      "schedule_id": "698e0ad2ebe6fd87d1dcc1ae",
+      "schedule_id": "698e0ee2ebe6fd87d1dcc1be",
       "agent_id": "698e0acc3e19f69d1aa0c41d",
       "agent_name": "Stock Alert Agent",
-      "cron_expression": "*/10 * * * *",
+      "cron_expression": "*/5 * * * *",
       "timezone": "America/New_York",
       "message": "Fetch Tesla stock price and send email alert",
       "is_active": true,
-      "next_run_time": "2026-02-12T12:20:00-05:00"
+      "next_run_time": "2026-02-12T12:35:00-05:00"
     }
   ],
   "workflow": {
@@ -29,7 +29,7 @@
       {
         "id": "input_node",
         "type": "Input",
-        "label": "Scheduler Trigger (Every 10 min)",
+        "label": "Scheduler Trigger (Every 5 min)",
         "nodeCategory": "input"
       },
       {
