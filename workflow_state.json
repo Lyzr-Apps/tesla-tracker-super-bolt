@@ -1,0 +1,59 @@
+{
+  "agents": [
+    {
+      "agent_id": "698e0acc3e19f69d1aa0c41d",
+      "name": "Stock Alert Agent",
+      "description": "Fetches real-time Tesla stock price, formats price data with daily change and percentage, composes and sends email notification",
+      "type": "text",
+      "provider": "perplexity",
+      "model": "sonar-reasoning-pro",
+      "has_knowledge_base": false,
+      "has_scheduler": true,
+      "tools": ["gmail"]
+    }
+  ],
+  "schedules": [
+    {
+      "schedule_id": "698e0ad2ebe6fd87d1dcc1ae",
+      "agent_id": "698e0acc3e19f69d1aa0c41d",
+      "agent_name": "Stock Alert Agent",
+      "cron_expression": "*/10 * * * *",
+      "timezone": "America/New_York",
+      "message": "Fetch Tesla stock price and send email alert",
+      "is_active": true,
+      "next_run_time": "2026-02-12T12:20:00-05:00"
+    }
+  ],
+  "workflow": {
+    "nodes": [
+      {
+        "id": "input_node",
+        "type": "Input",
+        "label": "Scheduler Trigger (Every 10 min)",
+        "nodeCategory": "input"
+      },
+      {
+        "id": "stock_alert_agent",
+        "type": "Agent",
+        "label": "Stock Alert Agent",
+        "nodeCategory": "agent"
+      },
+      {
+        "id": "output_node",
+        "type": "Output",
+        "label": "Email Sent",
+        "nodeCategory": "end"
+      }
+    ],
+    "edges": [
+      {
+        "source": "input_node",
+        "target": "stock_alert_agent"
+      },
+      {
+        "source": "stock_alert_agent",
+        "target": "output_node"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "agent_name": "Stock Alert Agent",
+  "agent_id": "698e0acc3e19f69d1aa0c41d",
+  "description": "Fetches real-time Tesla stock price, formats price data with daily change and percentage, composes and sends email notification",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "stock_symbol": "string",
+    "current_price": "number",
+    "daily_change_amount": "number",
+    "daily_change_percentage": "number",
+    "timestamp": "string",
+    "market_status": "string",
+    "email_sent": "boolean",
+    "recipient_email": "string"
+  },
+  "example_response": {
+    "stock_symbol": "sample string",
+    "current_price": 0,
+    "daily_change_amount": 0,
+    "daily_change_percentage": 0,
+    "timestamp": "sample string",
+    "market_status": "sample string",
+    "email_sent": false,
+    "recipient_email": "sample string"
+  }
+}
