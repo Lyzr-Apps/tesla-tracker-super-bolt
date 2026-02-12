@@ -62,9 +62,42 @@ interface AlertHistoryItem {
 function parseExecutionData(log: ExecutionLog): StockAlertData | null {
   try {
     if (!log.response_output) return null
-    const parsed = JSON.parse(log.response_output)
-    const result = parsed?.result
-    if (!result) return null
+
+    // Try parsing as JSON
+    let parsed: any
+    try {
+      parsed = JSON.parse(log.response_output)
+    } catch {
+      // If parsing fails, response_output might already be an object
+      parsed = log.response_output
+    }
+
+    // Try multiple accessor paths based on agent type
+    let result = null
+
+    // Path 1: Direct result (for some agent types)
+    if (parsed?.stock_symbol !== undefined) {
+      result = parsed
+    }
+    // Path 2: result.response.result (common for JSON agents)
+    else if (parsed?.result?.response?.result) {
+      result = parsed.result.response.result
+    }
+    // Path 3: result.result (alternative path)
+    else if (parsed?.result?.result) {
+      result = parsed.result.result
+    }
+    // Path 4: Just result (simple path)
+    else if (parsed?.result) {
+      result = parsed.result
+    }
+    // Path 5: response.result
+    else if (parsed?.response?.result) {
+      result = parsed.response.result
+    }
+
+    if (!result || typeof result !== 'object') return null
+
     return {
       stock_symbol: result.stock_symbol,
       current_price: result.current_price,
@@ -75,7 +108,8 @@ function parseExecutionData(log: ExecutionLog): StockAlertData | null {
       email_sent: result.email_sent,
       recipient_email: result.recipient_email,
     }
-  } catch {
+  } catch (error) {
+    console.error('Error parsing execution data:', error)
     return null
   }
 }
@@ -187,13 +221,20 @@ export default function Home() {
   const fetchHistory = async () => {
     const result = await getScheduleLogs(SCHEDULE_ID, { limit: 50 })
     if (result.success) {
-      const history = (result.executions ?? []).map(log => ({
-        id: log.id,
-        executed_at: log.executed_at,
-        success: log.success,
-        data: parseExecutionData(log),
-        error_message: log.error_message ?? undefined,
-      }))
+      const history = (result.executions ?? []).map(log => {
+        const parsedData = parseExecutionData(log)
+        // Log for debugging
+        if (log.response_output && !parsedData) {
+          console.log('Failed to parse execution log:', log.response_output)
+        }
+        return {
+          id: log.id,
+          executed_at: log.executed_at,
+          success: log.success,
+          data: parsedData,
+          error_message: log.error_message ?? undefined,
+        }
+      })
       setAlertHistory(history)
 
       // Set latest alert from first successful execution
@@ -201,6 +242,8 @@ export default function Home() {
       if (latest?.data) {
         setLatestAlert(latest.data)
       }
+    } else {
+      console.error('Failed to fetch schedule logs:', result.error)
     }
     setLoadingHistory(false)
   }
@@ -515,8 +558,17 @@ export default function Home() {
                     <Loader2 className="w-6 h-6 animate-spin text-primary" />
                   </div>
                 ) : !displayLatest ? (
-                  <div className="text-center py-8 text-muted-foreground text-sm">
-                    No price data available yet
+                  <div className="text-center py-8 space-y-2">
+                    <Mail className="w-8 h-8 mx-auto mb-2 opacity-50 text-muted-foreground" />
+                    <p className="text-muted-foreground text-sm">No price data available yet</p>
+                    <p className="text-xs text-muted-foreground">
+                      {schedule?.is_active
+                        ? `The schedule will run in ${countdown}. You can also click "Trigger Now" to get immediate data.`
+                        : 'Enable the schedule to start receiving alerts, or click "Trigger Now" for immediate data.'}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Tip: Toggle "Sample Data" above to see how the dashboard will look.
+                    </p>
                   </div>
                 ) : (
                   <div className="space-y-4">
